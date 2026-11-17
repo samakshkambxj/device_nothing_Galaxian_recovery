@@ -248,7 +248,10 @@ Treat this list as the acceptance test for the first build.
   locally.
 - This machine has about 59 GB free; a full Android 16 source tree needs much
   more. Build on a roomier disk or machine.
-- Prebuilts are not committed. Run `scripts/extract-prebuilts.sh` against the
-  matching stock dump before building.
-- The stock firmware is proprietary. Do not redistribute the extracted
-  modules, kernel, DTB or images.
+- Prebuilts match stock `B4.1-261029-1756` and are committed. Re-run
+  `scripts/extract-prebuilts.sh` only when the firmware changes, and do not mix
+  builds.
+- The prebuilt kernel, DTBO, DTB and modules are GPL/BSD-licensed stock
+  binaries; see `prebuilt/README.md` and `docs/EXCLUDED-INPUTS.md`. Full stock
+  images, vendor userspace and Trustonic components remain local and are not
+  redistributed.

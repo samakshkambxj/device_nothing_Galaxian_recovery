@@ -48,6 +48,9 @@ recovery/root/
   vendor/etc/vintf/manifest.xml           recovery device manifest
   vendor/manifest.xml                     legacy libvintf fallback
 
+prebuilt/                      kernel, DTBO, DTB, touch modules and module lists
+                               from stock Nothing OS 4.1 (GPL; see prebuilt/README.md)
+
 patches/
   twrp/                        no device-side patches
   orangefox/                   R12 runtime/UI/FBE/VABC/Trustonic series
@@ -61,7 +64,7 @@ scripts/
 
 docs/BUILDING.md               workspace, build, package, flash, restore
 docs/PORTING-NOTES.md          hardware facts and open validation items
-docs/EXCLUDED-INPUTS.md        what is intentionally not committed
+docs/EXCLUDED-INPUTS.md        what is shipped and what stays local
 ```
 
 ## Quick start
@@ -74,7 +77,7 @@ ln -s "$PWD" "$ANDROID_BUILD_TOP/device/nothing/Galaxian"
 #    AERA report that their vendor trees already provide the source set)
 ./scripts/apply-recovery-patches.sh --recovery orangefox
 
-# 3. Extract stock kernel/DTB/modules from the device's own dump
+# 3. Optional: only if you changed firmware or prebuilt/ is missing
 ./scripts/extract-prebuilts.sh ~/A001T/stock
 
 # 4. Build
@@ -90,8 +93,9 @@ ln -s "$PWD" "$ANDROID_BUILD_TOP/device/nothing/Galaxian"
 For TWRP use `--recovery twrp`; for AERA use `--recovery aera`. See
 [docs/BUILDING.md](docs/BUILDING.md) for the per-recovery build matrix.
 
-`prebuilt/` and `out/` are ignored by git; the firmware blobs stay local to
-your machine.
+`prebuilt/` is committed and matches stock `B4.1-261029-1756`; see
+[prebuilt/README.md](prebuilt/README.md) for its source and GPL notice. `out/`
+is ignored by git.
 
 ## Device specifications
 

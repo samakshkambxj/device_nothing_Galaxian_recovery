@@ -1,6 +1,5 @@
-# Local build inputs produced by scripts/extract-prebuilts.sh. These come from
-# the device's own firmware and are not redistributed with this tree.
-/prebuilt/
-
 # Local build and packaging output.
 /out/
+
+# The prebuilt kernel, DTBO, DTB and modules are committed on purpose. They
+# match a specific stock firmware build and are documented in prebuilt/README.md.

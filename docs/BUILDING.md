@@ -102,13 +102,18 @@ device/nothing/Galaxian/scripts/apply-recovery-patches.sh --recovery aera
 The OrangeFox series lives in `patches/orangefox`. The script can also read a
 different directory with `--patches <dir>` or `GALAXIAN_RECOVERY_PATCHES`.
 
-## 4. Extract the local prebuilts
+## 4. Local prebuilts
+
+`prebuilt/` is committed and matches stock `B4.1-261029-1756`, so a normal
+build needs no extraction step. Its contents and GPL source notice are in
+`prebuilt/README.md`.
+
+Re-run the extractor only when you switch firmware or the directory is
+missing:
 
 ```bash
-device/nothing/Galaxian/scripts/extract-prebuilts.sh ~/A001T/stock
+device/nothing/Galaxian/scripts/extract-prebuilts.sh /path/to/stock
 ```
-
-This produces `prebuilt/` (git-ignored):
 
 | Path | Source | Purpose |
 | --- | --- | --- |
@@ -118,7 +123,7 @@ This produces `prebuilt/` (git-ignored):
 | `vendor_boot/*.ko` + `modules.load*` | stock platform ramdisk | module list and recovery fragment |
 | `vendor/{ft3683g,bootinfo,touchpanel_event_notify}.ko` | stock `vendor_dlkm.img` | touch bring-up |
 
-Requirements:
+Extraction requirements:
 
 - `magiskboot` (`MAGISKBOOT=/path/to/magiskboot` if not in `PATH`)
 - `fsck.erofs` from `erofs-utils`
@@ -129,6 +134,8 @@ On Omarchy/Arch: `sudo pacman -S erofs-utils lz4 android-tools`, then provide
 
 The script fails closed if a required module or file is missing. Set `TMPDIR`
 to a directory on a large filesystem if `/tmp` is a small tmpfs.
+
+Do not mix prebuilts from different firmware builds.
 
 ## 5. Build
 
