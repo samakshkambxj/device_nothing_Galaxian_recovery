@@ -1,0 +1,6 @@
+# Local build inputs produced by scripts/extract-prebuilts.sh. These come from
+# the device's own firmware and are not redistributed with this tree.
+/prebuilt/
+
+# Local build and packaging output.
+/out/
