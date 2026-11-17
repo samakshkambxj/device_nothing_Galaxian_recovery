@@ -154,6 +154,11 @@ fragment path printed by the script is normally:
 out/target/product/Galaxian/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.cpio.lz4
 ```
 
+If you source `build/envsetup.sh` yourself and see
+`build/envsetup.sh: line 21: TOP: unbound variable`, your shell has `nounset`
+enabled. Run `set +u` before sourcing it; the bundled build script relaxes
+`nounset` around `envsetup.sh` and `lunch` already.
+
 Only this fragment is used. The generated `vendor_boot` from the Android build
 is a throwaway image; the final image is produced in the next step so the stock
 platform ramdisk, DTB and bootconfig stay byte-for-byte identical.

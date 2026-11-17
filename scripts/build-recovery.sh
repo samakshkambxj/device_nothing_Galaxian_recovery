@@ -98,15 +98,21 @@ if [[ ! -d "$build_top" ]]; then
 fi
 
 cd "$build_top"
+# AOSP's envsetup.sh (and lunch) read variables before defining them, which
+# aborts under `set -u`. Relax nounset only around the environment setup.
+set +u
 # shellcheck disable=SC1091
 source build/envsetup.sh
 
 lunch "twrp_Galaxian-bp2a-$variant"
+set -u
 
 mka_args=()
 [[ -n "$jobs" ]] && mka_args+=("-j$jobs")
 read -r -a targets <<< "$target"
+set +u
 mka "${mka_args[@]}" "${targets[@]}"
+set -u
 
 product_out="$build_top/out/target/product/Galaxian"
 fragment=
