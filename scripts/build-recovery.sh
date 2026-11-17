@@ -12,7 +12,7 @@
 #   --recovery <twrp|orangefox|aera|auto>   default: auto
 #   --variant <eng|userdebug|user>          default: eng
 #   --target <make-target>                  default: vendorbootimage
-#                                           (recoveryimage for AERA)
+#                                           (adbd recoveryimage for AERA)
 #   --jobs <n>                              passed to mka
 #   --list                                  list recovery targets
 #
@@ -80,7 +80,7 @@ esac
 
 if [[ -z "$target" ]]; then
     if [[ "$recovery" == aera ]]; then
-        target=recoveryimage
+        target="adbd recoveryimage"
     else
         target=vendorbootimage
     fi
@@ -105,7 +105,8 @@ lunch "twrp_Galaxian-bp2a-$variant"
 
 mka_args=()
 [[ -n "$jobs" ]] && mka_args+=("-j$jobs")
-mka "${mka_args[@]}" "$target"
+read -r -a targets <<< "$target"
+mka "${mka_args[@]}" "${targets[@]}"
 
 product_out="$build_top/out/target/product/Galaxian"
 fragment=

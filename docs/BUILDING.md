@@ -139,7 +139,7 @@ The script runs `lunch twrp_Galaxian-bp2a-eng` and then:
 | --- | --- | --- |
 | TWRP | `vendorbootimage` | recovery fragment |
 | OrangeFox R12 | `vendorbootimage` | recovery fragment |
-| AERA R1.0 | `recoveryimage` | AERA image plus recovery fragment |
+| AERA R1.0 | `adbd recoveryimage` | AERA image plus recovery fragment |
 
 Override with `--target <make-target>` if your source revision needs it. The
 fragment path printed by the script is normally:
