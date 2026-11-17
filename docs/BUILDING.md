@@ -7,8 +7,8 @@ This document assumes:
 - a stock Nothing OS 4.1 Galaxian dump with `boot.img`, `vendor_boot.img`,
   `dtbo.img` and `vendor_dlkm.img` (the local reference dump is
   `~/A001T/stock`);
-- a Linux host with roughly 150 GB free for the source tree. A full Android 16
-  sync is much larger than the recovery output.
+- a Linux host with roughly 250 GB free for the source tree and output. A full
+  Android 16 sync is much larger than the recovery output.
 
 The tree itself is recovery-only and shares no makefiles with
 `~/device_nothing_Galaxian`. Keep the LineageOS tree out of the recovery
@@ -27,26 +27,45 @@ tree in one workspace at a time.
 
 ### TWRP
 
-Use the Android 16 TWRP manifest for the TWRP revision you intend to build.
-The tree expects the standard `vendor/twrp/config/common.mk` interface.
+Public TWRP branches currently stop at `android-14.1`. There is no upstream
+Android 16 TWRP branch to build this tree against yet, so treat the TWRP path
+as ready-but-pending. When a 16.0 branch appears, sync it as usual; the tree
+expects the standard `vendor/twrp/config/common.mk` interface. For a working
+build today, use OrangeFox R12 or AERA R1.0.
 
 ### OrangeFox R12
 
+OrangeFox's `sync.git` is a tool checkout, not a manifest. Use its Android 16
+entry point, which initialises `https://gitlab.com/OrangeFox/Manifest.git`
+branch `fox_16.0`:
+
 ```bash
-mkdir -p ~/fox16 && cd ~/fox16
-repo init --depth=1 -u https://gitlab.com/OrangeFox/sync.git -b fox_16.0
-repo sync -c -j"$(nproc)" --force-sync --no-clone-bundle --no-tags
+mkdir -p ~/OrangeFox_sync && cd ~/OrangeFox_sync
+git clone https://gitlab.com/OrangeFox/sync.git
+cd sync
+./orangefox_sync.sh --branch 16.0 --path ~/fox_16.0
 ```
 
-Use the branch that provides `vendor/recovery` `fox_16.0-R12`. If the current
-OrangeFox manifest names the branch differently, adjust the `repo init` line.
+Or initialise the manifest directly:
+
+```bash
+mkdir -p ~/fox_16.0 && cd ~/fox_16.0
+repo init --depth=1 -u https://gitlab.com/OrangeFox/Manifest.git -b fox_16.0
+repo sync -c -j"$(nproc)" --no-clone-bundle --no-tags
+```
+
+The manifest already contains `vendor/recovery` and `device/xiaomi/mondrian`;
+do not reuse a patched 12.1/14.1 checkout.
 
 ### AERA R1.0
 
-Use the AERA R1.0 Android 16 manifest (`aera-16.0` branches for
-`android_bootable_recovery`, `android_vendor_recovery` and the system
-projects). AERA's vendor build system already carries its own patch flow and
-installer assets.
+```bash
+mkdir -p ~/aera-16.0 && cd ~/aera-16.0
+repo init --depth=1 -u https://github.com/AERA-Recovery/android_manifest.git -b aera-16.0
+repo sync -c -j"$(nproc)" --no-clone-bundle --no-tags
+```
+
+AERA's vendor build system carries its own patch flow and installer assets.
 
 ## 2. Add this tree
 

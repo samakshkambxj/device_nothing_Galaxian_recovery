@@ -107,17 +107,31 @@ mka_args=()
 [[ -n "$jobs" ]] && mka_args+=("-j$jobs")
 mka "${mka_args[@]}" "$target"
 
-fragment="$build_top/out/target/product/Galaxian/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.cpio.lz4"
+product_out="$build_top/out/target/product/Galaxian"
+fragment=
+for candidate in \
+    "$product_out/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.cpio.lz4" \
+    "$product_out/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.cpio" \
+    "$product_out/obj/PACKAGING/recovery_ramdisk_intermediates/recovery.cpio.lz4"; do
+    if [[ -f "$candidate" ]]; then
+        fragment=$candidate
+        break
+    fi
+done
+if [[ -z "$fragment" ]]; then
+    fragment=$(find "$product_out" -type f \( -name recovery.cpio.lz4 -o -name recovery.cpio \) 2>/dev/null | head -n 1 || true)
+fi
+
 echo
 echo "recovery: $recovery"
 echo "target:   $target"
-if [[ -f "$fragment" ]]; then
+if [[ -n "$fragment" ]]; then
     echo "fragment: $fragment"
     echo "package it with:"
     echo "  $tree_dir/scripts/package-vendor-boot.sh \\"
     echo "      --stock <stock-dump> --ramdisk $fragment --label $recovery"
 else
-    echo "warning: recovery fragment not found at the expected path:" >&2
-    echo "  $fragment" >&2
-    echo "inspect out/target/product/Galaxian/obj/PACKAGING for the actual file." >&2
+    echo "warning: no recovery.cpio fragment found under $product_out" >&2
+    echo "If the target completed, try 'mka recoveryimage' and rerun this check," >&2
+    echo "or inspect $product_out/obj/PACKAGING for the produced file." >&2
 fi

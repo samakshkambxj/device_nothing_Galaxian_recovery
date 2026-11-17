@@ -8,7 +8,11 @@ The tree builds a standard Android 16 `vendor_boot` recovery fragment from one
 shared product. It is intended for:
 
 - **TWRP** on the Android 16 TWRP manifest;
-- **OrangeFox R12** on the `fox_16.0-R12` manifest;
+
+  Public TWRP branches currently stop at `android-14.1`, so the Android 16
+  TWRP entry is forward-looking. Build OrangeFox R12 or AERA R1.0 today; no
+  device-side changes are needed for TWRP once its 16.0 branch lands.
+- **OrangeFox R12** on the `fox_16.0` manifest;
 - **AERA Recovery R1.0** on the `aera-16.0` manifest.
 
 All three use the same `twrp_Galaxian-bp2a-eng` lunch target. The recovery is

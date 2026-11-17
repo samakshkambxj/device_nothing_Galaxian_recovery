@@ -47,7 +47,7 @@ What changes is the vendor source tree and its environment:
 
 | Recovery | Vendor source | Device-side patches | BoardConfig namespace |
 | --- | --- | --- | --- |
-| TWRP | Android 16 TWRP | none | `TW_*`, `TARGET_RECOVERY_*`, `BOARD_*` |
+| TWRP | Android 16 TWRP (not published yet; public branches stop at `android-14.1`) | none | `TW_*`, `TARGET_RECOVERY_*`, `BOARD_*` |
 | OrangeFox R12 | `vendor/recovery` `fox_16.0-R12` | `patches/orangefox` | `TW_*` plus `OF_*` |
 | AERA R1.0 | `vendor/recovery` `aera-16.0` | AERA's own patch flow | `TW_*` plus `AERA_*` |
 
