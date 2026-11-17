@@ -68,7 +68,7 @@ esac
 
 if [[ "$list_only" -eq 1 ]]; then
     echo "twrp       no device-side patch series (upstream TWRP sources)"
-    echo "orangefox  patches/orangefox (R12 runtime, UI, FBE, VABC, Trustonic)"
+    echo "orangefox  patches/orangefox (R12 format-data, data mapping, sideload)"
     echo "aera       no device-side patch series (AERA vendor patch flow)"
     exit 0
 fi
@@ -91,16 +91,6 @@ fi
 build_top=${ANDROID_BUILD_TOP:-}
 [[ -n "$build_top" ]] || { echo "ANDROID_BUILD_TOP is not set" >&2; exit 1; }
 [[ -d "$patches_dir" ]] || { echo "patch directory not found: $patches_dir" >&2; exit 1; }
-
-work=$(mktemp -d "${TMPDIR:-/tmp}/galaxian-patches.XXXXXX")
-trap 'rm -rf "$work"' EXIT
-
-ui_patch="$patches_dir/orangefox16-r12-ui-port.patch"
-if [[ ! -f "$ui_patch" ]]; then
-    cat "$patches_dir"/orangefox16-r12-ui-port.patch.xz.part-*.chunk-* > "$work/ui-port.patch.xz"
-    xz -dc "$work/ui-port.patch.xz" > "$work/ui-port.patch"
-    ui_patch="$work/ui-port.patch"
-fi
 
 apply() {
     local repo=$1 patch=$2 required=${3:-required}
@@ -129,17 +119,19 @@ apply() {
 }
 
 echo "recovery: orangefox"
-apply vendor/recovery "$patches_dir/orangefox16-r12-vendor.patch"
-apply bootable/recovery "$ui_patch"
-apply bootable/recovery "$patches_dir/orangefox16-r12-v15-runtime.patch"
 apply bootable/recovery "$patches_dir/orangefox16-r12-v16-format-data-wipe.patch"
 apply bootable/recovery "$patches_dir/orangefox16-r12-v17-data-format-mapping.patch"
-apply hardware/interfaces "$patches_dir/android16-health-vintf-v15.patch"
-apply system/security "$patches_dir/android16-keystore-kmsg-v15.patch"
-apply bootable/recovery "$patches_dir/orangefox16-r12-v18-v28-and-nothingos41-v5.patch"
-apply bootable/recovery "$patches_dir/orangefox16-r12-nothingos41-v8-sigpipe.patch" optional
+apply bootable/recovery "$patches_dir/orangefox16-r12-nothingos41-v8-sigpipe.patch"
+apply hardware/interfaces "$patches_dir/android16-health-vintf-v15.patch" optional
+apply system/security "$patches_dir/android16-keystore-kmsg-v15.patch" optional
 
 echo
+if [[ -d "$patches_dir/legacy" ]]; then
+    echo "not applied: patches/orangefox/legacy (vendor, UI, runtime and v18 series)"
+    echo "Those were written against the OrangeFox16 fork snapshot, not the current"
+    echo "fox_16.0 tree. See patches/orangefox/README.md before using them."
+    echo
+fi
 if [[ "$check_only" -eq 1 ]]; then
     echo "all required patches apply cleanly (nothing was changed)"
 else

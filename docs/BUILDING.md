@@ -99,8 +99,11 @@ device/nothing/Galaxian/scripts/apply-recovery-patches.sh --recovery twrp
 device/nothing/Galaxian/scripts/apply-recovery-patches.sh --recovery aera
 ```
 
-The OrangeFox series lives in `patches/orangefox`. The script can also read a
-different directory with `--patches <dir>` or `GALAXIAN_RECOVERY_PATCHES`.
+The OrangeFox series lives in `patches/orangefox`. The script applies the
+device fixes that match the current `fox_16.0` tree; patches written against
+the older fork snapshot are kept in `patches/orangefox/legacy` and are not
+applied. The script can also read a different directory with `--patches <dir>`
+or `GALAXIAN_RECOVERY_PATCHES`.
 
 ## 4. Local prebuilts
 
@@ -256,9 +259,14 @@ the common `twrp_Galaxian` product.
 
 ### OrangeFox R12
 
-Apply `patches/orangefox` once per workspace. The series carries the R12 UI
-port, the Trustonic readiness handshake, Format Data device-mapper teardown
-and the VABC-safe snapshot handling.
+Apply `patches/orangefox` once per workspace. The applied series carries the
+Format Data device-mapper teardown, the pre-format crypto service shutdown and
+the ADB-sideload `SIGPIPE` fix.
+
+The older vendor/UI/runtime patches are in `patches/orangefox/legacy` and are
+not applied: the public `fox_16.0` tree already carries the R12 vendor layer
+and UI, and the legacy patches were cut against a fork snapshot that no longer
+matches. See `patches/orangefox/README.md`.
 
 ### AERA R1.0
 

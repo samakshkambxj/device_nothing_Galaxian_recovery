@@ -40,10 +40,11 @@ The stock firmware remains the property of Nothing Technology Limited. See
 
 Most of this repository is device configuration. The only vendored source
 patches are the OrangeFox R12 series under `patches/orangefox`, which target
-`vendor/recovery`, `bootable/recovery`, `hardware/interfaces` and
-`system/security` in an OrangeFox workspace. They are applied by
+`bootable/recovery`, `hardware/interfaces` and `system/security` in an
+OrangeFox workspace. They are applied by
 `scripts/apply-recovery-patches.sh --recovery orangefox` and remain the work of
-their respective authors.
+their respective authors. Patches kept in `patches/orangefox/legacy` are
+reference-only and are not applied.
 
 TWRP builds from the upstream TWRP sources without device-side patches. AERA
 builds from the AERA manifest and uses AERA's own patch flow.
