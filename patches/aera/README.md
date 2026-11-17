@@ -10,7 +10,7 @@ Build AERA from an AERA R1.0 workspace:
 ```bash
 source build/envsetup.sh
 lunch twrp_Galaxian-bp2a-eng
-mka adbd recoveryimage
+mka adbd vendorbootimage
 ```
 
 The AERA vendor scripts detect `vendor_boot` recovery from

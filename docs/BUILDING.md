@@ -67,6 +67,12 @@ repo sync -c -j"$(nproc)" --no-clone-bundle --no-tags
 
 AERA's vendor build system carries its own patch flow and installer assets.
 
+AERA's public examples use `mka adbd recoveryimage`, but Galaxian keeps
+recovery in `vendor_boot`, not in a recovery partition. Use
+`mka adbd vendorbootimage` so the build produces the recovery fragment, then
+package it into the stock `vendor_boot` as described in step 6. The
+`recoveryimage` target is not sufficient on this layout.
+
 ## 2. Add this tree
 
 ```bash
@@ -139,7 +145,7 @@ The script runs `lunch twrp_Galaxian-bp2a-eng` and then:
 | --- | --- | --- |
 | TWRP | `vendorbootimage` | recovery fragment |
 | OrangeFox R12 | `vendorbootimage` | recovery fragment |
-| AERA R1.0 | `adbd recoveryimage` | AERA image plus recovery fragment |
+| AERA R1.0 | `adbd vendorbootimage` | AERA image plus recovery fragment |
 
 Override with `--target <make-target>` if your source revision needs it. The
 fragment path printed by the script is normally:

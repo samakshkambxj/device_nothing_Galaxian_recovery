@@ -12,7 +12,7 @@
 #   --recovery <twrp|orangefox|aera|auto>   default: auto
 #   --variant <eng|userdebug|user>          default: eng
 #   --target <make-target>                  default: vendorbootimage
-#                                           (adbd recoveryimage for AERA)
+#                                           (adbd vendorbootimage for AERA)
 #   --jobs <n>                              passed to mka
 #   --list                                  list recovery targets
 #
@@ -80,7 +80,7 @@ esac
 
 if [[ -z "$target" ]]; then
     if [[ "$recovery" == aera ]]; then
-        target="adbd recoveryimage"
+        target="adbd vendorbootimage"
     else
         target=vendorbootimage
     fi
@@ -133,6 +133,6 @@ if [[ -n "$fragment" ]]; then
     echo "      --stock <stock-dump> --ramdisk $fragment --label $recovery"
 else
     echo "warning: no recovery.cpio fragment found under $product_out" >&2
-    echo "If the target completed, try 'mka recoveryimage' and rerun this check," >&2
+    echo "If the target completed, try 'mka vendorbootimage' and rerun this check," >&2
     echo "or inspect $product_out/obj/PACKAGING for the produced file." >&2
 fi

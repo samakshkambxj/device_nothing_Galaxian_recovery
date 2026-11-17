@@ -229,7 +229,7 @@ Treat this list as the acceptance test for the first build.
    bootloader unlocked. The footer uses `--algorithm NONE`, matching stock, so
    no signing key is required.
 10. **AERA specifics.** Confirm the AERA build detects `vendor_boot` recovery
-    from the two `BOARD_*` flags, that its `recoveryimage` target produces a
+    from the two `BOARD_*` flags, that its `vendorbootimage` target produces a
     usable fragment, and that the AERA status bar, brightness and module list
     match the panel. AERA's installer packaging is separate from
     `package-vendor-boot.sh`.
