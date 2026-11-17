@@ -102,7 +102,8 @@ aera)
     export AERA_USE_GREP_BINARY=1
     export AERA_USE_BUSYBOX_BINARY=1
     export AERA_USE_XZ_UTILS=1
-    export AERA_USE_DMSETUP=1
+    # AERA_USE_DMCTL is set in BoardConfig.mk. AERA rejects using the legacy
+    # dmsetup interface at the same time, so do not export AERA_USE_DMSETUP.
 
     export AERA_SETTINGS_ROOT_DIRECTORY=/data/recovery
     export AERA_MISCELLANEOUS_ROOT_DIRECTORY=/sdcard
