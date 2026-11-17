@@ -1,0 +1,49 @@
+# Start the stock Trustonic TEE stack without blocking init. The setup script
+# waits until recovery creates the logical vendor mapping, then exposes only
+# the vendor binaries and libraries needed for Android 16 metadata-FBE.
+
+on init
+    start twrp.trustonic.setup
+
+service twrp.trustonic.setup /system/bin/sh /system/bin/twrp_trustonic_setup.sh
+    class core
+    user root
+    group root system
+    seclabel u:r:recovery:s0
+    oneshot
+    disabled
+
+# The helper starts these directly so it can control their lifetime. Keep the
+# definitions disabled: they preserve SELinux domains and are useful for manual
+# debugging with `setprop ctl.start`.
+service mobicore /mnt/vendor_real/bin/mcDriverDaemon
+    class core
+    user system
+    group system
+    seclabel u:r:recovery:s0
+    disabled
+    oneshot
+
+service tee-1-1 /vendor/bin/hw/vendor.trustonic.tee@1.1-service
+    class hal
+    user system
+    group system
+    seclabel u:r:recovery:s0
+    disabled
+    oneshot
+
+service vendor.keymint-trustonic /vendor/bin/hw/android.hardware.security.keymint@3.0-service.trustonic
+    class early_hal
+    user system
+    group system
+    seclabel u:r:recovery:s0
+    disabled
+    oneshot
+
+service vendor.gatekeeper-default /vendor/bin/hw/android.hardware.gatekeeper-service.trustonic
+    class early_hal
+    user system
+    group system
+    seclabel u:r:recovery:s0
+    disabled
+    oneshot
