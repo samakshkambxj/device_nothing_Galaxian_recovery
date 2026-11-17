@@ -1,0 +1,47 @@
+# AERA Recovery R1.0 configuration for the Nothing Phone (3a) Lite.
+#
+# AERA's aera_config.mk translates the public AERA_* names into the TW_*/OF_*
+# variables consumed by the inherited recovery backend. These variables are
+# ignored by TWRP and OrangeFox, so the fragment can live in the common product.
+
+AERA_MAINTAINER := samakshkambxj
+AERA_DEVICE_VERSION := Nothing_Phone_3a_Lite
+
+# Display geometry: 1084 x 2392, 420 dpi.
+AERA_SCREEN_W := 1084
+AERA_SCREEN_H := 2392
+AERA_STATUS_H := 95
+AERA_STATUS_INDENT_LEFT := 48
+AERA_STATUS_INDENT_RIGHT := 48
+AERA_HIDE_NOTCH := 1
+AERA_CLOCK_POS := 1
+AERA_OPTIONS_LIST_NUM := 6
+AERA_USE_GREEN_LED := 0
+AERA_NO_SCREEN_BLANK := 1
+
+# Partition and data handling.
+AERA_ENABLE_ALL_PARTITION_TOOLS := 1
+AERA_WORKAROUND_BACKUP_BUG := 1
+AERA_USE_AIDL_BOOT_CONTROL := 1
+AERA_FORCE_DATA_FORMAT_F2FS := 1
+AERA_UNBIND_SDCARD_F2FS := 1
+AERA_WIPE_METADATA_AFTER_DATAFORMAT := 1
+AERA_BIND_MOUNT_SDCARD_ON_FORMAT := 1
+AERA_DYNAMIC_FULL_SIZE := 9663676416
+AERA_DISPLAY_FORMAT_FILESYSTEMS_DEBUG_INFO := 1
+AERA_FORCE_PREBUILT_KERNEL := 1
+AERA_NO_RELOAD_AFTER_DECRYPTION := 1
+AERA_NO_TREBLE_COMPATIBILITY_CHECK := 1
+AERA_ENABLE_FRP_WIPE := 1
+
+# Compression and image handling.
+AERA_USE_LZ4_COMPRESSION := 1
+AERA_ENABLE_FS_COMPRESSION := 1
+
+# Locale.
+AERA_DEFAULT_TIMEZONE := IST-5:30
+AERA_DEFAULT_LANGUAGE := en
+AERA_EXTRA_LANGUAGES := false
+
+# Recovery userspace.
+AERA_EXCLUDE_APEX := true
