@@ -78,7 +78,9 @@ modules_root="$work/vendor_dlkm/lib/modules"
 [[ -d "$modules_root" ]] || { echo "could not find lib/modules in vendor_dlkm" >&2; exit 1; }
 
 echo "==> installing prebuilts into $prebuilt"
-rm -rf "$prebuilt"
+# Keep prebuilt/README.md: it is tracked and documents the source and licence.
+rm -rf "$prebuilt/vendor_boot" "$prebuilt/vendor" "$prebuilt/dtbs" \
+       "$prebuilt/Image.lz4" "$prebuilt/dtbo.img"
 mkdir -p "$prebuilt/vendor_boot" "$prebuilt/vendor" "$prebuilt/dtbs"
 
 # Kernel image used only while building the throwaway boot image. The final
