@@ -258,11 +258,13 @@ GALAXIAN_RECOVERY_TOUCH_MODULES := \
     ft3683g.ko
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 TW_LOAD_VENDOR_BOOT_MODULES := true
-# Keep the driver list on one line: recovery turns it into its modules list.
-# Do not sort the provider prefix: bootinfo imports one symbol from each of
-# these four modules.
+# The recovery build emits this as a single -DTW_LOAD_VENDOR_MODULES=...
+# compiler flag. Keep the literal quotes around the list: make echoes them
+# through, so the compiler receives one definition instead of treating every
+# module name after the first as an input file. Do not sort the provider
+# prefix: bootinfo imports one symbol from each of these four modules.
 GALAXIAN_RECOVERY_SORTED_MODULES := $(filter-out $(GALAXIAN_RECOVERY_PROVIDER_MODULES),$(sort $(notdir $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD)) $(GALAXIAN_RECOVERY_TOUCH_MODULES)))
-TW_LOAD_VENDOR_MODULES := $(GALAXIAN_RECOVERY_PROVIDER_MODULES) $(GALAXIAN_RECOVERY_SORTED_MODULES)
+TW_LOAD_VENDOR_MODULES := $(shell echo \"$(GALAXIAN_RECOVERY_PROVIDER_MODULES) $(GALAXIAN_RECOVERY_SORTED_MODULES)\")
 
 # The three vendor_dlkm touch modules must also be packed into the recovery
 # fragment so they exist under /lib/modules after the fragments are merged.
