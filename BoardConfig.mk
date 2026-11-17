@@ -100,6 +100,20 @@ BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
 
 # Stock vendor_boot module set. scripts/extract-prebuilts.sh fills
 # prebuilt/vendor_boot/ from the platform ramdisk of the target vendor_boot.
+# prebuilt/ is never committed, so fail early with a clear message instead of
+# letting `cat` print one error per dumpvars invocation.
+GALAXIAN_REQUIRED_PREBUILTS := \
+    $(KERNEL_PATH)/Image.lz4 \
+    $(KERNEL_PATH)/dtbo.img \
+    $(KERNEL_PATH)/dtbs/mt6878.dtb \
+    $(KERNEL_PATH)/vendor_boot/modules.load \
+    $(KERNEL_PATH)/vendor_boot/modules.load.recovery
+
+GALAXIAN_MISSING_PREBUILTS := $(filter-out $(wildcard $(GALAXIAN_REQUIRED_PREBUILTS)),$(GALAXIAN_REQUIRED_PREBUILTS))
+ifneq ($(GALAXIAN_MISSING_PREBUILTS),)
+$(error Missing prebuilt inputs: $(GALAXIAN_MISSING_PREBUILTS). Run scripts/extract-prebuilts.sh <stock-dump> first, or copy prebuilt/ from a machine that already extracted the same firmware)
+endif
+
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_boot/modules.load))
 BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(addprefix $(KERNEL_PATH)/vendor_boot/, $(notdir $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))))
 BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_boot/modules.load.recovery))
